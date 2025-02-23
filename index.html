@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game - Start</title>
+</head>
+<body>
+    <h1>Memory Matching Game</h1>
+    <form id="playerForm">
+        <label>First Name: <input type="text" id="firstName" required></label><br>
+        <label>Last Name: <input type="text" id="lastName" required></label><br>
+        <label>Age: <input type="number" id="age" required></label><br>
+        <button type="submit">Start Game</button>
+    </form>
+
+    <script>
+        document.getElementById("playerForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const playerData = {
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                age: document.getElementById("age").value,
+                attempts: 0
+            };
+
+            localStorage.setItem("playerData", JSON.stringify(playerData));
+            window.location.href = "game.html";
+        });
+    </script>
+</body>
+</html>
