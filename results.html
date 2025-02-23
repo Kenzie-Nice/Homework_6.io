@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Results</title>
+</head>
+<body>
+    <h1>Game Results</h1>
+    <p>Name: <span id="playerName"></span></p>
+    <p>Age: <span id="playerAge"></span></p>
+    <p>Total Attempts: <span id="playerAttempts"></span></p>
+    <button onclick="restartGame()">Play Again</button>
+
+    <script>
+        const playerData = JSON.parse(localStorage.getItem("playerData"));
+
+        document.getElementById("playerName").textContent = `${playerData.firstName} ${playerData.lastName}`;
+        document.getElementById("playerAge").textContent = playerData.age;
+        document.getElementById("playerAttempts").textContent = playerData.attempts;
+
+        function restartGame() {
+            localStorage.removeItem("playerData");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
