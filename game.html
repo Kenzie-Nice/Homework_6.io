@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        .grid { display: grid; grid-template-columns: repeat(4, 100px); gap: 10px; }
+        .card { width: 100px; height: 100px; background-color: gray; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .hidden { background-color: white; }
+    </style>
+</head>
+<body>
+    <h1>Memory Matching Game</h1>
+    <div class="grid" id="gameGrid"></div>
+    <p>Attempts: <span id="attempts">0</span></p>
+
+    <script>
+        let images = ["🍎", "🍌", "🍒", "🍇", "🥝", "🍍"];
+        images = [...images, ...images]; // Duplicate images for matching
+        images.sort(() => Math.random() - 0.5); // Shuffle images
+
+        let playerData = JSON.parse(localStorage.getItem("playerData")) || { attempts: 0 };
+        let firstPick = null, secondPick = null, attempts = playerData.attempts;
+        const grid = document.getElementById("gameGrid");
+        const attemptsDisplay = document.getElementById("attempts");
+
+        // Generate game grid
+        images.forEach((image, index) => {
+            let card = document.createElement("div");
+            card.classList.add("card");
+            card.dataset.index = index;
+            card.dataset.image = image;
+            card.addEventListener("click", flipCard);
+            grid.appendChild(card);
+        });
+
+        function flipCard(event) {
+            let clickedCard = event.target;
+            if (clickedCard.classList.contains("hidden") || clickedCard === firstPick) return;
+
+            clickedCard.textContent = clickedCard.dataset.image;
+            if (!firstPick) {
+                firstPick = clickedCard;
+            } else {
+                secondPick = clickedCard;
+                attempts++;
+                attemptsDisplay.textContent = attempts;
+                setTimeout(checkMatch, 500);
+            }
+        }
+
+        function checkMatch() {
+            if (firstPick.dataset.image === secondPick.dataset.image) {
+                firstPick.classList.add("hidden");
+                secondPick.classList.add("hidden");
+            } else {
+                firstPick.textContent = "";
+                secondPick.textContent = "";
+            }
+            firstPick = null;
+            secondPick = null;
+
+            if (document.querySelectorAll(".hidden").length === images.length) {
+                playerData.attempts = attempts;
+                localStorage.setItem("playerData", JSON.stringify(playerData));
+                window.location.href = "results.html";
+            }
+        }
+    </script>
+</body>
+</html>
