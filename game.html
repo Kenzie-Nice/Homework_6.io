@@ -16,9 +16,9 @@
     <p>Attempts: <span id="attempts">0</span></p>
 
     <script>
-        let images = ["🍎", "🍌", "🍒", "🍇", "🥝", "🍍"];
-        images = [...images, ...images]; // Duplicate images for matching
-        images.sort(() => Math.random() - 0.5); // Shuffle images
+        let images = ["🍎", "🍌", "🐰", "🥭", "🥝", "🍍"];
+        images = [...images, ...images]; // bro...did you know emoji's work in code!? simple shit i probably should have known about...but i didnt. REALLY wish i did earlier 
+        images.sort(() => Math.random() - 0.5);
 
         let playerData = JSON.parse(localStorage.getItem("playerData")) || { attempts: 0 };
         let firstPick = null, secondPick = null, attempts = playerData.attempts;
